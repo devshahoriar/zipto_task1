@@ -48,8 +48,21 @@ async function startProject() {
 
         // Step 2: Install dependencies
         console.log('📦 Installing dependencies...');
-        await execPromise('bun install');
-        console.log('✅ Dependencies installed\n');
+        const installProcess = spawn('bun', ['install'], {
+            stdio: 'inherit',
+            shell: true
+        });
+        
+        await new Promise((resolve, reject) => {
+            installProcess.on('close', (code) => {
+                if (code === 0) {
+                    console.log('✅ Dependencies installed\n');
+                    resolve();
+                } else {
+                    reject(new Error(`Installation failed with code ${code}`));
+                }
+            });
+        });
 
         // Step 3: Start the development server
         console.log('🔥 Starting development server...');
