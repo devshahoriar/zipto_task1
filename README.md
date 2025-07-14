@@ -1,4 +1,4 @@
-# Just run 💥💥💥
+# Just clone & run 💥💥💥
 
 `
 npm run start
